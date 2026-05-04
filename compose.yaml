@@ -1,0 +1,9 @@
+name: repositorycloner
+services:
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    entrypoint: /bin/sh
+    stdin_open: true
+    tty: true
