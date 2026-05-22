@@ -9,8 +9,16 @@ import (
 	"github.com/schollz/progressbar/v3"
 )
 
-var FilePath = os.Args[1]
-var TargetCloneDirectory = os.Args[2]
+var FilePath = envOrPanic("CSV_ABS_FILE")
+var TargetCloneDirectory = envOrPanic("OUTPUT_ABS_DIR")
+
+func envOrPanic(k string) string {
+	v, present := os.LookupEnv(k)
+	if !present {
+		panic(k + "variable is not set.")
+	}
+	return v
+}
 
 func parseRepositoryList() [][]string {
 	f, err := os.Open(FilePath)
@@ -33,8 +41,8 @@ func parseRepositoryList() [][]string {
 func main() {
 	repositories := parseRepositoryList()
 	bar := progressbar.Default(int64(len(repositories)))
+	_ = bar.RenderBlank()
 	for _, repo := range repositories {
-		_ = bar.RenderBlank()
 
 		url, commitId, targetFolderName := repo[0], repo[1], repo[2]
 		targetAbsolutePath := TargetCloneDirectory + "/" + targetFolderName

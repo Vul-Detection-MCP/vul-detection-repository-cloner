@@ -6,7 +6,7 @@ This tool provides a way to clone list of Git repositories of given commits usin
 
 Use these volumes:
 
-- `/app/list.csv` - source with structure (Git URL, commit hash, unique ID)
+- `/app/list.csv` - source.
 - `/app/git` - cloned repositories.
 
 Unique ID is needed to distinguish multiple clones of the same project. 
