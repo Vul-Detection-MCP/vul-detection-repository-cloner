@@ -11,11 +11,20 @@ import (
 
 var FilePath = envOrPanic("CSV_ABS_FILE")
 var TargetCloneDirectory = envOrPanic("OUTPUT_ABS_DIR")
+var Depth = envOrFallback("CLONE_DEPTH", "1")
 
 func envOrPanic(k string) string {
 	v, present := os.LookupEnv(k)
 	if !present {
 		panic(k + "variable is not set.")
+	}
+	return v
+}
+
+func envOrFallback(k string, fallback string) string {
+	v, present := os.LookupEnv(k)
+	if !present {
+		return fallback
 	}
 	return v
 }
@@ -51,7 +60,7 @@ func main() {
 			"git",
 			"clone",
 			"--depth",
-			"1",
+			Depth,
 			"--revision",
 			commitId,
 			url,
